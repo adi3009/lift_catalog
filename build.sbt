@@ -1,6 +1,6 @@
-name := "Lift 2.6 starter template"
+name := "Lift Catalog"
 
-version := "0.0.4"
+version := "0.0.1"
 
 organization := "net.liftweb"
 
