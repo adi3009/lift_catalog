@@ -7,7 +7,7 @@ class Products(category: Category) {
 
   def render = ".product" #> {
     Catalog.products.filter(_.categoryId == category.id).map { product =>
-      ".product-name *" #> product.name
+      ".product-name *" #> <a href={Product.menu.calcHref(product)}>{product.name}</a>
     }
   }
 

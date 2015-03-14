@@ -9,7 +9,7 @@ import sitemap._
 import Loc._
 import net.liftmodules.JQueryModule
 import net.liftweb.http.js.jquery._
-import code.snippet.CategoryNav
+import code.snippet.{ CategoryNav, Product }
 
 /**
  * A class that's instantiated early and run.  It allows the application
@@ -17,18 +17,19 @@ import code.snippet.CategoryNav
  */
 class Boot {
   def boot {
-    
+
     ResourceServer.allow {
       case "css" :: _ => true
-      case "js" :: _ => true
-    } 
-    
+      case "js" :: _  => true
+    }
+
     // where to search snippet
     LiftRules.addToPackages("code")
 
     def entries = SiteMap(
       Menu.i("Home") / "index" >> Hidden,
-      CategoryNav.menu)
+      CategoryNav.menu,
+      Product.menu)
 
     LiftRules.setSiteMapFunc(() => entries)
 

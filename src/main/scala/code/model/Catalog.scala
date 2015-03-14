@@ -4,7 +4,7 @@ import net.liftweb.common.Box
 
 case class Category(id: Long, parentId: Option[Long], name: String, urlKey: String, description: String)
 
-case class Product(name: String, categoryId: Long)
+case class Product(id: Long, name: String, categoryId: Long)
 
 object Catalog {
 
@@ -26,14 +26,16 @@ object Catalog {
 
   def categoryByUrlKey(urlKey: String): Box[Category] = categories.find(urlKey == _.urlKey)
 
+  def productById(id: String): Box[Product] = products.find(id == _.id.toString)
+
   lazy val products: Seq[Product] = for {
     i <- 1 to 99
   } yield {
     val id = randomCategoryId
     val category = categories.find(_.id == id)
     category match {
-      case Some(c) => Product(s"Product ${i} ${c.name}", c.id)
-      case None    => Product(s"Product ${i}", id)
+      case Some(c) => Product(i, s"Product ${i} ${c.name}", c.id)
+      case None    => Product(i, s"Product ${i}", id)
     }
   }
 
