@@ -3,13 +3,13 @@ package bootstrap.liftweb
 import net.liftweb._
 import util._
 import Helpers._
-
 import common._
 import http._
 import sitemap._
 import Loc._
 import net.liftmodules.JQueryModule
 import net.liftweb.http.js.jquery._
+import code.snippet.CategoryNav
 
 /**
  * A class that's instantiated early and run.  It allows the application
@@ -18,8 +18,14 @@ import net.liftweb.http.js.jquery._
 class Boot {
   def boot {
     // where to search snippet
-    LiftRules.addToPackages("code")    
-    
+    LiftRules.addToPackages("code")
+
+    def entries = SiteMap(
+      Menu.i("Home") / "index" >> Hidden,
+      CategoryNav.menu)
+
+    LiftRules.setSiteMapFunc(() => entries)
+
     //Show the spinny image when an Ajax call starts
     LiftRules.ajaxStart =
       Full(() => LiftRules.jsArtifacts.show("ajax-loader").cmd)
@@ -33,7 +39,7 @@ class Boot {
 
     //Init the jQuery module, see http://liftweb.net/jquery for more information.
     LiftRules.jsArtifacts = JQueryArtifacts
-    JQueryModule.InitParam.JQuery=JQueryModule.JQuery191
+    JQueryModule.InitParam.JQuery = JQueryModule.JQuery191
     JQueryModule.init()
 
   }
