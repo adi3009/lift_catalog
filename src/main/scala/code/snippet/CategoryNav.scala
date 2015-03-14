@@ -11,20 +11,7 @@ object CategoryNav {
 
   def menu = Menu.param[Category]("Category", Loc.LinkText(c => Text(c.urlKey)), Catalog.categoryByUrlKey _, _.urlKey) /
     "category" >> Loc.Template(() => Templates("category" :: "list" :: Nil).openOr(NodeSeq.Empty)) >> Loc.Title(c => Text(c.name))
-
-  private def categoryMenuHierarchy(parent: Category, children: List[Category]) = {
-
-    def categoryMenu(c: Category) = Menu.param[Category](c.name, c.urlKey, Catalog.categoryByUrlKey(_), _.urlKey) / s"category/${c.urlKey}"
-
-    val parentMenu = categoryMenu(parent)
-
-    val submenus = for {
-      category <- children
-    } yield categoryMenu(category)
-
-    parentMenu.submenus(submenus)
-  }
-
+  
   def render = "#categories-nav *" #> {
     for {
       (parent, children) <- Catalog.categoryHierarchy
