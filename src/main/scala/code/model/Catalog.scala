@@ -4,6 +4,8 @@ import net.liftweb.common.Box
 
 case class Category(id: Long, parentId: Option[Long], name: String, urlKey: String, description: String)
 
+case class Product(name: String)
+
 object Catalog {
      
   lazy val womens = Category(1, None, "Womens", "womens", "Womens category")
@@ -23,4 +25,8 @@ object Catalog {
   lazy val categoryHierarchy = List(womens -> List(bags, boots), mens -> List(shoes), fashion -> Nil)
   
   def categoryByUrlKey(urlKey: String): Box[Category] = categories.find(urlKey == _.urlKey)
+  
+  lazy val products: Seq[Product] = for {
+    i <- 1 to 99
+  } yield Product(s"Product ${i}")
 }
