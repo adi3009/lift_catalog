@@ -1,14 +1,14 @@
 package code.snippet
 
 import net.liftweb.util.Helpers._
-import code.model.Catalog
+import code.model.{ Catalog, Category }
 
-object Products {
-  
+class Products(category: Category) {
+
   def render = ".product" #> {
-    Catalog.products.map { product =>
+    Catalog.products.filter(_.categoryId == category.id).map { product =>
       ".product-name *" #> product.name
     }
   }
-  
+
 }
