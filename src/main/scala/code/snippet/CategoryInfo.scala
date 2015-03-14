@@ -6,6 +6,5 @@ import code.model.Category
 
 class CategoryInfo(category: Category) {
   
-  def render = ".category-name" #> category.name &
-    ".description" #> category.description
+  def render = ".description" #> category.description
 }
