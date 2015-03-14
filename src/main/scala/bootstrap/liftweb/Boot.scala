@@ -17,6 +17,12 @@ import code.snippet.CategoryNav
  */
 class Boot {
   def boot {
+    
+    ResourceServer.allow {
+      case "css" :: _ => true
+      case "js" :: _ => true
+    } 
+    
     // where to search snippet
     LiftRules.addToPackages("code")
 
