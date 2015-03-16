@@ -10,6 +10,11 @@ import Loc._
 import net.liftmodules.JQueryModule
 import net.liftweb.http.js.jquery._
 import code.snippet.{ CategoryNav, Product }
+import net.liftweb.squerylrecord.SquerylRecord
+import java.sql.DriverManager
+import org.squeryl.adapters.H2Adapter
+import org.squeryl.Session
+import code.model.CatalogSchema
 
 /**
  * A class that's instantiated early and run.  It allows the application
@@ -49,5 +54,10 @@ class Boot {
     JQueryModule.InitParam.JQuery = JQueryModule.JQuery191
     JQueryModule.init()
 
+    
+    SquerylRecord.initWithSquerylSession(Session.create(DriverManager.getConnection("jdbc:h2:mem:lift_catalog;DB_CLOSE_DELAY=-1", "sa", ""), new H2Adapter()))
+    
+    CatalogSchema.setup
+    CatalogSchema.populate
   }
 }
