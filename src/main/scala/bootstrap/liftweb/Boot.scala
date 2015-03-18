@@ -10,6 +10,7 @@ import Loc._
 import net.liftmodules.JQueryModule
 import net.liftweb.http.js.jquery._
 import code.snippet.{ CategoryNav, Product }
+import code.repository.CatalogRepository
 
 /**
  * A class that's instantiated early and run.  It allows the application
@@ -48,6 +49,8 @@ class Boot {
     LiftRules.jsArtifacts = JQueryArtifacts
     JQueryModule.InitParam.JQuery = JQueryModule.JQuery191
     JQueryModule.init()
+
+    CatalogRepository.setup
 
   }
 }

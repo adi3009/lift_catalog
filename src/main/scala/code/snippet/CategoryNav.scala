@@ -11,7 +11,7 @@ object CategoryNav {
 
   val menu = Menu.param[Category]("Category", Loc.LinkText(c => Text(c.urlKey)), Catalog.categoryByUrlKey _, _.urlKey) /
     "category" >> Loc.Template(() => Templates("category" :: "list" :: Nil).openOr(NodeSeq.Empty)) >> Loc.Title(c => Text(c.name))
-  
+
   def render = "#categories-nav *" #> {
     for {
       (parent, children) <- Catalog.categoryHierarchy

@@ -1,49 +1,23 @@
 package code.model
 
 import net.liftweb.common.Box
+import code.repository.{ CatalogRepository => repository }
+import scala.concurrent.Future
 
-case class Category(id: Long, parentId: Option[Long], name: String, urlKey: String, description: String)
+case class Category(id: Option[Long], name: String, urlKey: String, description: String)
 
-case class Product(id: Long, name: String, categoryId: Long)
+case class Product(id: Option[Long], name: String, description: String, categoryId: Option[Long])
 
 object Catalog {
 
-  lazy val womens = Category(1, None, "Womens", "womens", "Womens category")
+  lazy val categories = repository.allCategories
 
-  lazy val mens = Category(2, None, "Mens", "mens", "Mens category")
+  def categoryByUrlKey(urlKey: String): Box[Category] = repository.categoryByUrlKey(urlKey)
 
-  lazy val fashion = Category(3, None, "Fashion", "fashion", "Fashion category")
+  def productById(id: String): Future[Option[Product]] = repository.productById(id.toLong)
 
-  lazy val bags = Category(4, Some(1), "Bags", "womens-bags", "Womens bags category")
+  def categoryProducts(id: Long): Seq[Product] = repository.categoryProducts(id)
 
-  lazy val boots = Category(5, Some(1), "Boots", "womens-boots", "Womens boots category")
+  lazy val categoryHierarchy = categories.take(3).map((_, Nil))
 
-  lazy val shoes = Category(5, Some(2), "Shoes", "mens-shoes", "Mens shoes category")
-
-  lazy val categories = List(womens, mens, fashion, bags, boots, shoes)
-
-  lazy val categoryHierarchy = List(womens -> List(bags, boots), mens -> List(shoes), fashion -> Nil)
-
-  def categoryByUrlKey(urlKey: String): Box[Category] = categories.find(urlKey == _.urlKey)
-
-  def productById(id: String): Box[Product] = products.find(id == _.id.toString)
-
-  lazy val products: Seq[Product] = for {
-    i <- 1 to 99
-  } yield {
-    val id = randomCategoryId
-    val category = categories.find(_.id == id)
-    category match {
-      case Some(c) => Product(i, s"Product ${i} ${c.name}", c.id)
-      case None    => Product(i, s"Product ${i}", id)
-    }
-  }
-
-  // not the best, but fits the purpose here
-  val randomGen = new scala.util.Random(5)
-
-  def randomCategoryId = {
-    val n = randomGen.nextInt(6)
-    if (n <= 0 || n > 5) 1L else n.toLong
-  }
 }
