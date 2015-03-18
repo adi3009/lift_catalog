@@ -73,7 +73,9 @@ object CatalogRepository {
     p <- 1 to 33
   } yield Product(None, s"Product ${p} ${c.name}", s"Product description for product in ${c.name} category", c.id)
 
-  val db = Database.forURL("jdbc:h2:mem:catalog;MODE=PostgreSQL;DB_CLOSE_DELAY=-1", Map("driver" -> "org.h2.Driver", "connectionPool" -> "disabled", "keepAliveConnection" -> "true"))
+  //val db = Database.forURL("jdbc:h2:mem:catalog;MODE=PostgreSQL;DB_CLOSE_DELAY=-1", Map("driver" -> "org.h2.Driver", "connectionPool" -> "disabled", "keepAliveConnection" -> "true"))
+
+  val db = Database.forConfig("in_mem_catalog")
 
   def allCategories = {
     val cs = for {
