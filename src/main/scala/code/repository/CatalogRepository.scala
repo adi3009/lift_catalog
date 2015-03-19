@@ -82,7 +82,8 @@ object CatalogRepository {
       c <- categories
     } yield (c)
 
-    Await.result(db.run(cs.result), Duration.Inf)
+    db.run(cs.result)
+    //Await.result(db.run(cs.result), Duration.Inf)
   }
 
   def categoryByUrlKey(urlKey: String) = {
